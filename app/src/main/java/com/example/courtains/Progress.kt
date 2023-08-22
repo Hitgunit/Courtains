@@ -2,9 +2,7 @@ package com.example.courtains
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import kotlinx.android.synthetic.main.activity_main.btnIniciar
-import kotlinx.android.synthetic.main.activity_main.etqNumero
-import kotlinx.android.synthetic.main.activity_main.progressBar
+import com.example.courtains.databinding.ActivityProgressBinding
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
@@ -12,20 +10,23 @@ import kotlinx.coroutines.launch
 
 class Progress : AppCompatActivity() {
 
+    private lateinit var binding: ActivityProgressBinding
     var salir = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_progress)
+        binding = ActivityProgressBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        btnIniciar.setOnClickListener{
+        binding.btnIniciar
+        binding.btnIniciar.setOnClickListener{
             //Verifica si es true para continuar el ciclo
             if (salir){
                 salir = false
-                btnIniciar.text="Inciar"
+                binding.btnIniciar.text="Inciar"
             }else{
                 salir=true
-                btnIniciar.text="Detener"
+                binding.btnIniciar.text="Detener"
                 GlobalScope.launch(Dispatchers.Main) {
                     contar()
                 }
@@ -39,12 +40,12 @@ class Progress : AppCompatActivity() {
         while (salir){
             delay(1000)
             //Se convierte a entero
-            var num = etqNumero.text.toString().toInt()
+            var num = binding.etqNumero.text.toString().toInt()
             //Incrementa el valor
             num++
             //Se recibe el valor
-            etqNumero.text = num.toString()
-            progressBar.setProgress(num)
+            binding.etqNumero.text = num.toString()
+            binding.progressBar.setProgress(num)
         }
 
     }
